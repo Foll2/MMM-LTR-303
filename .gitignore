@@ -1,0 +1,6 @@
+node_modules
+pythondocs
+*.js
+!*LTR-303*
+!i2c*
+!node_helper.js

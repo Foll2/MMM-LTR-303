@@ -1,0 +1,11 @@
+{
+  "name": "mmm-ltr-303",
+  "version": "1.0.0",
+  "description": "",
+  "main": "MMM-LTR-303.js",
+  "author": "Foll2",
+  "license": "ISC",
+  "dependencies": {
+    "i2c-bus": "latest"
+  }
+}
