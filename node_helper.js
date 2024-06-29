@@ -40,31 +40,31 @@ module.exports = NodeHelper.create({
     },
 
     stop: function() {
-        Log.log("Shutting down" + this.name);
+        Log.log("Shutting down " + this.name);
         //this.connection.close();
         this.i2cBus.closeSync();
     },
 
-    socketNotificationReceived: function (notification, _) {
+    socketNotificationReceived: function (notification, payload) {
 		switch (notification) {
-			case "START":
+			case "START": {
+                this.config = payload;
 				if (!this.started) {
-
 					this.started = true;
-					Log.log("Started.");
-					//this.readLight();
-                    this.LightInterval = setInterval(this.readLight.bind(this), 1000);
-					
+                    this.LightInterval = setInterval(this.readLight.bind(this), this.config.updateGap);
 				}
 				break;
+            }
 			case "SUSPEND": {
+                this.config = payload;
 				Log.log("Suspending brightness detection");
 				clearInterval(this.LightInterval);
 				break;
 			}
 			case "RESUME": {
+                this.config = payload;
 				Log.log("Resuming brightness detection");
-				this.LightInterval = setInterval(this.readLight.bind(this), 1000);
+				this.LightInterval = setInterval(this.readLight.bind(this), this.config.updateGap);
 			break;
 			}
 			default: ;
@@ -72,6 +72,9 @@ module.exports = NodeHelper.create({
 	},
 
     readLight: function() {
+        //Run IR just because
+
+        //IR Light
         const ch1Low = this.i2cBus.readByteSync(LTR303_ADDRESS, ALS_DATA_CH1_0);
         const ch1High = this.i2cBus.readByteSync(LTR303_ADDRESS, ALS_DATA_CH1_1);
 
