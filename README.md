@@ -21,6 +21,7 @@ In  `config/config.js`
     config: {
         maxLux: 500,
         maxDim: 1,
+        updateGap: 3000,
     }
 }
 ```
